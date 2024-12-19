@@ -1,0 +1,88 @@
+/* Apply general table styling */
+.table-wrapper {
+    overflow-x: auto;
+    width: 100%;
+}
+
+.table-wrapper table {
+    table-layout: fixed;
+    width: 100%; /* Ensure table takes the full width */
+}
+
+.table th, .table td {
+    overflow: hidden; /* Prevent content overflow if width is restricted */
+    text-overflow: ellipsis; /* Optional: Add ellipsis for truncated content */
+    padding: 5px !important;
+}
+
+/* Ensure text stays on one line and doesn't wrap */
+.table th, .table td {
+    white-space: nowrap;
+    width: auto !important; /* Allow dynamic widths */
+}
+
+/* General table styles */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 30px 0;
+    font-size: 18px; /* Increase font size for better readability */
+    text-align: left;
+    background-color: #ffffff; /* White background */
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1); /* Add shadow for depth */
+    border: 2px solid #ddd; /* Thicker border for a more defined table */
+}
+
+/* Style the table header */
+.table thead tr {
+    background-color: #007bff; /* Blue header background */
+    color: #ffffff; /* White text for contrast */
+    font-weight: bold;
+}
+
+.table th {
+    padding: 10px 20px !important; /* More padding in header cells */
+    text-align: left;
+    font-size: 18px; /* Larger font size in header */
+}
+
+/* Style table rows */
+.table tbody tr {
+    border-bottom: 2px solid #ddd; /* Thicker bottom border for rows */
+    transition: background-color 0.3s ease;
+}
+
+.table tbody tr:hover {
+    background-color: #f1f1f1; /* Light gray background on hover */
+}
+
+/* Style table cells */
+.table td {
+    padding: 18px 25px; /* Increase padding inside cells */
+    color: #333; /* Dark text for better readability */
+    font-size: 16px; /* Slightly larger font size */
+    border-left: 2px solid #ddd; /* Thicker border between cells */
+    
+}
+
+.table td button {
+    padding: 3px;
+    font-size: 14px;
+}
+
+/* Alternate row background */
+.table tbody tr:nth-of-type(even) {
+    background-color: #f9f9f9; /* Light gray background for alternate rows */
+}
+
+/* Add responsiveness */
+@media (max-width: 768px) {
+    .table {
+        font-size: 16px; /* Adjust font size for smaller screens */
+    }
+
+    .table th,
+    .table td {
+        padding: 14px 18px; /* Adjust padding for smaller screens */
+    }
+}

@@ -1,0 +1,75 @@
+/* Layout container styling */
+.layout {
+    display: flex;
+    flex-direction: column;
+    height: 100vh; /* Ensure the layout covers the full height of the viewport */
+  }
+  
+  /* Navbar styling */
+  .navbar {
+    background-color: #ffffff; /* Clean white background */
+    color: #000000; /* Black text for contrast */
+    padding: 0.2rem 1rem; /* Adjusted padding for better spacing */
+    border-bottom: 1px solid #d3d3d3; /* Softer border color for a polished look */
+    position: sticky; /* Keep the navbar visible on scroll */
+    top: 0; /* Ensure it stays at the top */
+    z-index: 1000; /* Ensure it stays above other content */
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+  }
+  
+  /* Main content wrapper styling */
+  .main-content {
+    display: flex;
+    flex-grow: 1; /* Ensures content grows to fill available space */
+    overflow: hidden; /* Prevents unwanted overflow issues */
+  }
+  
+  /* Sidebar styling */
+  .sidebar {
+    width: 250px; /* Slightly wider for better usability */
+    background-color: #f8f9fa; /* Light gray for modern appearance */
+    padding: 1rem;
+    border-right: 1px solid #d3d3d3; /* Softer border for consistency */
+    overflow-y: auto; /* Allow scrolling if the content overflows */
+  }
+
+  .sidebar ul li {
+    cursor: pointer;
+  }
+
+  .sidebar ul li:hover {
+    background-color: #e9ecef;
+    transition: background-color 0.3s ease;
+  }
+  
+  /* Content area styling */
+  .content {
+    flex-grow: 1; /* Ensures the content fills remaining space */
+    padding: 1.5rem; /* Adjusted padding for better readability */
+    overflow-y: auto; /* Allows scrolling for large content */
+    background-color: #ffffff; /* Clean white background */
+  }
+  
+  /* Footer styling */
+  .footer {
+    background-color: #ffffff; /* Consistent with the navbar */
+    color: #000000;
+    padding: 0.2rem 1rem; /* Adjusted padding for better spacing */
+    text-align: center;
+    border-top: 1px solid #d3d3d3;
+    position: sticky; /* Footer remains at the bottom of the viewport */
+    bottom: 0;
+    z-index: 1000; /* Ensure it stays above content */
+  }
+  
+  /* Utility Classes for Responsiveness */
+  @media (max-width: 768px) {
+    .sidebar {
+      width: 180px; /* Narrower sidebar for smaller screens */
+    }
+  
+    .content {
+      padding: 1rem; /* Reduced padding for smaller screens */
+    }
+  }
+  

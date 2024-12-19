@@ -1,0 +1,61 @@
+form {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1; /* Ensures the form grows to push the button down */
+}
+
+form > .mb-4:last-child {
+    margin-top: auto; /* Push the button to the bottom of the form */
+}
+
+.container-page {
+    background: linear-gradient(#ffffff, #4798b1);
+    min-height: 100vh;
+    align-items: center;
+    padding: 35px;
+}
+
+.container-location {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    background: linear-gradient(108deg, #5aafcb 45%, #3298b9 0);
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 400px;
+    /* position: relative;
+    flex: 0 0 400px; */
+}
+
+.container-location h4 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: rgb(5, 89, 106);
+    padding: 10px;
+    border: 2px solid rgba(166, 228, 255, 0.357);
+    box-shadow: 1px 0 10px rgba(0, 0, 0, 0.455);
+    border-radius: 5px;
+    /* background: linear-gradient(to left, #4193af, #6db2ca); */
+  }
+
+  .error {
+    color: red;
+    margin-bottom: 10px;
+  }
+
+.container-button {
+    bottom: 0;
+  }
+
+  @media (max-width: 768px) {
+    .container-location {
+        padding: 15px;
+    }
+
+    form > .mb-4:last-child {
+        width: 100%; /* Ensures the button spans full width on smaller devices */
+    }
+}

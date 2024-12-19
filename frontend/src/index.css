@@ -1,0 +1,59 @@
+/* body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+} */
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+:root {
+  --navbar-bg: #ffffff;
+  --navbar-text: #333333;
+  --popup-bg: #ffffff;
+  --popup-text: #333333;
+}
+
+.dark {
+  --navbar-bg: #333333;
+  --navbar-text: #ffffff;
+  --popup-bg: #444444;
+  --popup-text: #ffffff;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: var(--navbar-bg);
+  color: var(--navbar-text);
+  transition: background-color 0.3s, color 0.3s;
+}
+
+body, html {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-control:focus {
+  outline: 2px solid #007bff; /* Change outline color */
+  outline-offset: 2px; /* Adjust distance of outline from element */
+  border-color: #007bff; /* Change border color on focus */
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Optional: add a glow effect */
+}
+
+input.form-control:focus,
+textarea.form-control:focus,
+select.form-control:focus {
+  outline: 2px solid #007bff;
+  outline-offset: 2px;
+  border-color: #007bff;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+

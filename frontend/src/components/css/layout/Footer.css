@@ -1,0 +1,39 @@
+/* .footer {
+    background-color: #ffffff;
+    color: #333;
+    text-align: center;
+    padding: 0.1rem;
+    border-top: 1px solid #d3d3d3;
+    position: fixed;
+    bottom: 0;
+    width: calc(100% - 200px);
+    left: 250px; 
+    z-index: 100;
+    font-size: 0.9rem;
+  }
+   */
+
+.footer {
+  height: 50px;
+  /* Adjust height based on your design */
+  background-color: #ffffff;
+  color: #333;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  bottom: 0;
+  border-top: 1px solid #d3d3d3;
+  width: 100%;
+  text-align: center;
+  z-index: 1000;
+  font-size: 0.9rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .footer {
+    width: 100%;
+    left: 0;
+  }
+}

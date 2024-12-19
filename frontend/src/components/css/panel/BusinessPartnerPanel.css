@@ -1,0 +1,73 @@
+
+/* Panel */
+.panel {
+    margin-top: 20px;
+    /* border: 1px solid #d2d2d27d; */
+    /* box-shadow: 1px 0 5px #cdcdcd; */
+    margin-bottom: 15px;
+    border-radius: 4px;
+    width: 100%; /* Ensures the panel stretches to fit the available space */
+    max-width: 100%; /* Prevents it from exceeding its parent container */
+    overflow: hidden; /* Hides any overflowing content */
+    display: block; /* Ensures block-level behavior for consistent width */
+}
+
+.panel-header {
+    /* background: linear-gradient(#ffffff, #e6e1e8); */
+    background:linear-gradient(120deg, #d5ff63 5%, #42c591 65%);
+    padding: 8px 12px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 500;
+    color: rgb(28, 113, 139);
+    /* font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande'; */
+    font-size: 14px;
+    /* border: 1px solid #b0c4ff; */
+    border: 1px solid rgba(49, 188, 253, 0.622);
+    border-width: 0px 1px 1px 0;
+}
+
+.panel-header:hover {
+    /* background: linear-gradient(#e2f7ff, #ffffff); */
+    color: #002b88;
+}
+
+.panel-icon i {
+    color: rgb(255, 255, 255);
+    /* font-size: 12px; */
+    /* padding: 5px; */
+    /* box-shadow: 2px 0 20px #7a7a7a; */
+    /* border-radius: 4px; */
+    font-weight: 700;
+    /* background: linear-gradient(#4aaeb4, #0667ad); */
+}
+
+.panel-content {
+    padding: 15px;
+    background-color: #fff;
+    border-top: 1px solid #ccc;
+}
+
+.panel-content .panel-button i {
+    color: rgb(0, 0, 0);
+    margin-right: 10px;
+    background-color: #fff;
+    box-shadow: 5px 0 10px #000000;
+    padding: 4px;
+    border-radius: 20px;
+}
+
+.panel-content .panel-button i:hover {
+    color: #000000;
+    background-color: rgb(255, 255, 255);
+    box-shadow: 5px 0 10px #005cb76f;
+}
+
+.container-OtherDetails {
+    background-color: #f1fffd;
+    padding: 5px;
+    margin-top: 10px;
+    border-radius: 10px;
+}

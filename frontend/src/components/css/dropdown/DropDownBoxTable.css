@@ -1,0 +1,34 @@
+.dropdown-box {
+    position: relative;
+    /* Required for the dropdown positioning */
+    display: flex;
+    /* Allows flexibility within input-group */
+}
+
+.dropdown-table-wrapper {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    max-height: 300px;
+    overflow: auto;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    z-index: 1050;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+}
+
+.input-group {
+    display: flex;
+}
+
+.input-group .w-75 {
+    width: 75%;
+    /* Adjusts width dynamically */
+}
+
+.input-group .w-25 {
+    width: 25%;
+    /* Adjusts width dynamically */
+}
