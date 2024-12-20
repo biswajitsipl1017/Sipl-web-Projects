@@ -1,88 +1,170 @@
-/* Apply general table styling */
+/* Wrapper to handle responsiveness */
 .table-wrapper {
     overflow-x: auto;
     width: 100%;
+    margin: 20px 0;
+    /* Add some spacing around the table */
 }
 
-.table-wrapper table {
-    table-layout: fixed;
-    width: 100%; /* Ensure table takes the full width */
-}
-
-.table th, .table td {
-    overflow: hidden; /* Prevent content overflow if width is restricted */
-    text-overflow: ellipsis; /* Optional: Add ellipsis for truncated content */
-    padding: 5px !important;
-}
-
-/* Ensure text stays on one line and doesn't wrap */
-.table th, .table td {
-    white-space: nowrap;
-    width: auto !important; /* Allow dynamic widths */
-}
-
-/* General table styles */
+/* Table base styles */
 .table {
-    width: 100%;
     border-collapse: collapse;
-    margin: 30px 0;
-    font-size: 18px; /* Increase font size for better readability */
-    text-align: left;
-    background-color: #ffffff; /* White background */
-    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1); /* Add shadow for depth */
-    border: 2px solid #ddd; /* Thicker border for a more defined table */
+    width: 100%;
+    font-size: 16px;
+    /* Slightly larger text for better readability */
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Style the table header */
-.table thead tr {
-    background-color: #007bff; /* Blue header background */
-    color: #ffffff; /* White text for contrast */
-    font-weight: bold;
+.table th,
+.table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    /* Add padding for spacing */
+    text-align: left;
+    vertical-align: middle;
 }
 
 .table th {
-    padding: 10px 20px !important; /* More padding in header cells */
-    text-align: left;
-    font-size: 18px; /* Larger font size in header */
+    background-color: #007bff;
+    /* Blue header background */
+    color: #fff;
+    /* White text */
+    font-weight: bold;
+    position: relative;
+    /* For resizer positioning */
+    text-transform: capitalize;
+    /* Capitalize column names */
+    padding: 8px 16px !important;
 }
 
-/* Style table rows */
-.table tbody tr {
-    border-bottom: 2px solid #ddd; /* Thicker bottom border for rows */
+.table td {
+    color: #333;
+    /* Darker text for better readability */
+    font-size: 14px;
+    /* Slightly smaller text for cells */
+    white-space: nowrap;
+}
+
+/* Zebra striping for rows */
+.table tbody tr:nth-of-type(odd) {
+    background-color: #f9f9f9;
+}
+
+.table tbody tr:nth-of-type(even) {
+    background-color: #ffffff;
+}
+
+/* Row hover effect */
+.table tbody tr:hover {
+    background-color: #f1f1f1;
+    cursor: pointer;
+}
+
+/* Resizer styles */
+.resizer {
+    width: 5px;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: transparent;
+    cursor: col-resize;
+    z-index: 1;
+}
+
+.resizer:hover {
+    background-color: #ccc;
+    /* Highlight resizer when hovered */
+}
+
+/* Style for input fields inside table cells */
+.table td input[type="text"],
+.table td input[type="checkbox"] {
+    border: none;
+    outline: none;
+    background-color: transparent;
+    padding: 0;
+    width: 100%;
+    font-size: inherit;
+    color: inherit;
+}
+
+/* Add focus style for better accessibility */
+.table td input[type="text"]:focus {
+    border-bottom: 2px solid #007bff;
+    /* Add a subtle underline on focus */
+    background-color: #f9f9f9;
+    /* Slight background color on focus */
+}
+
+.table td input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    /* Ensure it's clickable */
+}
+
+/* Checkbox specific styling */
+.table td input[type="checkbox"] {
+    border: none;
+    outline: none;
+    background-color: transparent;
+    padding: 0;
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    border: 1px solid #ddd;
+    background-color: #fff;
+}
+
+.table td input[type="checkbox"] {
+    -webkit-appearance: checkbox;
+    /* Reset to default appearance */
+    appearance: checkbox;
+}
+
+/* Optional: Add hover effect for the entire row */
+.table tbody tr:hover {
+    background-color: #f5f5f5;
+    /* Light gray on hover */
+}
+
+/* Button styles inside table cells */
+.table td button {
+    padding: 5px 8px;
+    font-size: 14px;
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    background-color: #dc3545;
+    /* Red for delete button */
+    cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
-.table tbody tr:hover {
-    background-color: #f1f1f1; /* Light gray background on hover */
+.table td button:hover {
+    background-color: #c82333;
+    /* Darker red on hover */
 }
 
-/* Style table cells */
-.table td {
-    padding: 18px 25px; /* Increase padding inside cells */
-    color: #333; /* Dark text for better readability */
-    font-size: 16px; /* Slightly larger font size */
-    border-left: 2px solid #ddd; /* Thicker border between cells */
-    
-}
-
-.table td button {
-    padding: 3px;
-    font-size: 14px;
-}
-
-/* Alternate row background */
-.table tbody tr:nth-of-type(even) {
-    background-color: #f9f9f9; /* Light gray background for alternate rows */
-}
-
-/* Add responsiveness */
+/* Responsive styles for smaller screens */
 @media (max-width: 768px) {
     .table {
-        font-size: 16px; /* Adjust font size for smaller screens */
+        font-size: 14px;
     }
 
     .table th,
     .table td {
-        padding: 14px 18px; /* Adjust padding for smaller screens */
+        padding: 8px;
+    }
+
+    .table td input[type="text"] {
+        padding: 5px;
+    }
+
+    .table td button {
+        font-size: 12px;
+        padding: 4px 6px;
     }
 }

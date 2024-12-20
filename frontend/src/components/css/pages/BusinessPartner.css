@@ -31,7 +31,7 @@
 }
 
 .container-form {
-    background-color: rgb(255, 255, 255);
+    /* background-color: rgb(255, 255, 255); */
     /* border: 1px solid white; */
     /* padding: 2px; */
     border-radius: 2px;
@@ -100,14 +100,14 @@ label {
 }
 
 .form-control {
-    height: 35px;
-    font-size: 14px;
+    height: 38px;
+    font-size: 15px !important;
     line-height: 20px;
 }
 
 .form-select {
-    height: 35px !important;
-    font-size: 14px;
+    height: 38px !important;
+    font-size: 15px !important;
 }
 
 /* Modal */
@@ -321,11 +321,10 @@ textarea::-webkit-scrollbar{
     scrollbar-width: none
 }
 
-.btn-primary {
+.btn-primary, .btn-secondary {
     color: #fff;
-    background-color: #00b7ff;
-    border-color: #00b7ff;
     line-height: 25px;
+    font-weight: 600;
   }
   
 .btn-primary:hover {

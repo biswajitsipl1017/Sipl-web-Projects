@@ -10,6 +10,7 @@
     max-width: 100%; /* Prevents it from exceeding its parent container */
     overflow: hidden; /* Hides any overflowing content */
     display: block; /* Ensures block-level behavior for consistent width */
+    border: 1px solid rgb(41, 106, 143);
 }
 
 .panel-header {

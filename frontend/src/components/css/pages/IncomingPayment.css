@@ -10,3 +10,12 @@
 .form-group {
     margin-bottom: 1rem;
 }
+
+.base-level label {
+    font-size: smaller;
+}
+
+.base-level .form-control {
+    font-size: smaller !important;
+    height: 35px;
+}

@@ -18,6 +18,11 @@ const IncomingPayment = () => {
         setActiveTab(tab);
     };
 
+    const [defaultDate, setDefaultDate] = useState(() => {
+        const today = new Date();
+        return today.toISOString().split("T")[0]; // Formats as YYYY-MM-DD
+    });
+
     useEffect(() => {
         const fetchGridData = async (grdName) => {
             try {
@@ -25,9 +30,9 @@ const IncomingPayment = () => {
                     formName: "FrmIncomingPayment",
                     grdName,
                 });
-    
+
                 const filteredColumns = response.data.filter(col => col.Visible === "TRUE");
-    
+
                 setGrids((prev) => ({
                     ...prev,
                     [grdName]: {
@@ -39,7 +44,7 @@ const IncomingPayment = () => {
                 console.error(`Error fetching columns for ${grdName}:`, error);
             }
         };
-    
+
         // Fetch column data for all grid names
         ["GrdBP", "GrdAccounts", "GrdOther"].forEach(fetchGridData);
     }, [API_BASE_URL]); // Add API_BASE_URL to the dependency array
@@ -65,11 +70,11 @@ const IncomingPayment = () => {
     // Update a cell in a grid
     const handleCellChange = (grdName, rowIndex, columnName, e) => {
         e.preventDefault(); // Prevent the page from reloading
-    
+
         const value = e.target.value; // Get the new value from the input
         const updatedRows = [...grids[grdName].rows];
         updatedRows[rowIndex][columnName] = value;
-    
+
         setGrids((prev) => ({
             ...prev,
             [grdName]: {
@@ -316,6 +321,8 @@ const IncomingPayment = () => {
                                                             id='postingDate'
                                                             type='date'
                                                             className="form-control"
+                                                            value={defaultDate} // Sets today's date as default
+                                                            onChange={(e) => setDefaultDate(e.target.value)} // Update state on change
                                                         />
                                                     </div>
                                                 </div>
@@ -382,6 +389,8 @@ const IncomingPayment = () => {
                                                             type="date"
                                                             id="refDate"
                                                             className="form-control"
+                                                            value={defaultDate}
+                                                            onChange={(e) => setDefaultDate(e.target.value)}
                                                         />
                                                     </div>
                                                 </div>
@@ -416,7 +425,7 @@ const IncomingPayment = () => {
                                 <div className="container-other-details">
                                     <Panel title='Customer'>
                                         <button type="button" className="btn btn-primary mb-2" onClick={(e) => handleAddRow(e, 'GrdBP')}>
-                                            Add Customer
+                                            Add Row
                                         </button>
                                         <DynamicGrid
                                             columns={grids.GrdBP.columns}
@@ -428,7 +437,7 @@ const IncomingPayment = () => {
                                     </Panel>
                                     <Panel title='Account'>
                                         <button type="button" className="btn btn-primary mb-2" onClick={(e) => handleAddRow(e, 'GrdAccounts')}>
-                                            Add Account
+                                            Add Row
                                         </button>
                                         <DynamicGrid
                                             columns={grids.GrdAccounts.columns}
@@ -443,7 +452,7 @@ const IncomingPayment = () => {
                                     </Panel>
                                     <Panel title='Other Charges'>
                                         <button type="button" className="btn btn-primary mb-2" onClick={(e) => handleAddRow(e, 'GrdOther')}>
-                                            Add Other Charges
+                                            Add Row
                                         </button>
                                         <DynamicGrid
                                             columns={grids.GrdOther.columns}
@@ -454,10 +463,125 @@ const IncomingPayment = () => {
                                         />
                                     </Panel>
                                 </div>
+                                <div className="mt-2 d-flex justify-content-between">
+                                    <div className="form-group">
+                                        <label htmlFor="oremarks" className="fs-6">Remarks</label>
+                                        <textarea
+                                            className="form-control h-75"
+                                            id="oremarks"
+                                            inputMode="text"
+                                            rows="4"
+                                            cols="50"
+                                        />
+                                    </div>
+                                    <div className="base-level">
+                                        <div className="row">
+                                            <div className="col-lg-6 col-md-6">
+                                                <div className="form-group m-0 row">
+                                                    <label className="col-md-5 col-lg-5 p-1" htmlFor="recordFY">
+                                                        FY Recd Till Date
+                                                    </label>
+                                                    <div className="col-md-7 col-lg-7 p-1">
+                                                        <input type="text"
+                                                            className="form-control"
+                                                            id="recordFY"
+                                                        />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="col-lg-6 col-md-6">
+                                                <div className="form-group m-0 row">
+                                                    <label htmlFor="onAccount" className="col-md-5 col-lg-5 p-1">
+                                                        On Account
+                                                    </label>
+                                                    <div className="col-md-7 col-lg-7 p-1">
+                                                        <input type='text'
+                                                            id="onAccount"
+                                                            className="form-control"
+                                                        />
+                                                    </div>
+                                                </div>
+                                                <div className="form-group m-0 row">
+                                                    <label htmlFor="grossAmount" className="col-md-5 col-lg-5 p-1">
+                                                        Gross Amount
+                                                    </label>
+                                                    <div className="col-md-7 col-lg-7 p-1">
+                                                        <input type='text'
+                                                            id="grossAmount"
+                                                            className="form-control"
+                                                        />
+                                                    </div>
+                                                </div>
+                                                <div className="form-group m-0 row">
+                                                    <label htmlFor="tdsBaseAmt" className="col-md-5 col-lg-5 p-1">
+                                                        TDS Base Amt.
+                                                    </label>
+                                                    <div className="col-md-7 col-lg-7 p-1">
+                                                        <input type='text'
+                                                            id="tdsBaseAmt"
+                                                            className="form-control"
+                                                        />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="base-level">
+                                        <div className="form-group m-0 row">
+                                            <label htmlFor="lessTDS" className="col-md-5 col-lg-5 p-1">
+                                                Less : TDS
+                                            </label>
+                                            <div className="col-md-7 col-lg-7 p-1">
+                                                <input type='text'
+                                                    id="lessTDS"
+                                                    className="form-control"
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className="form-group m-0 row">
+                                            <label htmlFor="lessOthCharges" className="col-md-5 col-lg-5 p-1">
+                                                Less : Other Charges
+                                            </label>
+                                            <div className="col-md-7 col-lg-7 p-1">
+                                                <input type='text'
+                                                    id="lessOthCharges"
+                                                    className="form-control"
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className="form-group m-0 row">
+                                            <label htmlFor="netAmount" className="col-md-5 col-lg-5 p-1">
+                                                Net Amount
+                                            </label>
+                                            <div className="col-md-7 col-lg-7 p-1">
+                                                <input type='text'
+                                                    id="netAmount"
+                                                    className="form-control"
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className='form-action-button mt-2'>
+                                    <button
+                                        type='submit'
+                                        className='btn btn-primary'
+                                        id='btnSave'
+                                    >
+                                        {/* {isEditMode ? 'Update' : 'Save'} */}
+                                        Save
+                                    </button>
+                                    <button
+                                        type='button'
+                                        className='btn btn-secondary'
+                                        id='btnCancel'
+                                    >
+                                        Cancel
+                                    </button>
+                                </div>
                             </form>
                         </div>
                     )}
-
                     {activeTab === 'view' && (
                         <div className="view-tab">
                             <h6 className="d-flex justify-content-center">View Form</h6>

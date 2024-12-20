@@ -31,6 +31,7 @@
 
 /* Content Styles */
 .main-content {
+  background-color: #f1fbe5;
   flex: 1;
   padding: 5px 5px 10px 5px;
   transition: margin-left 0.3s ease;
