@@ -6,6 +6,9 @@ import DynamicGrid from "../grid/DynamicGrid";
 import axios from 'axios';
 
 const IncomingPayment = () => {
+    const sessionUserDetails = JSON.parse(sessionStorage.getItem('user'));
+    const userid = sessionUserDetails?.userID;
+
     const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
     const [grids, setGrids] = useState({
         GrdBP: { columns: [], rows: [] },
@@ -220,7 +223,7 @@ const IncomingPayment = () => {
                                             <div className="row">
                                                 <div className="col-md-6 col-sm-6">
                                                     <div className="form-group">
-                                                        <label>Customer</label>
+                                                        <label>Customer Code</label>
                                                         <DropDownBoxTable
                                                             id="customerCode"
                                                             className=""
@@ -230,13 +233,30 @@ const IncomingPayment = () => {
                                                                 fieldName: 'TxtBPDetails',
                                                                 fieldValue: '',
                                                             }}
-                                                            onSelect={(value, row) => {
+                                                            onSelect={async (value, row) => {
                                                                 document.getElementById('customerName').value = row?.BPName || '';
                                                                 document.getElementById('customerCode').value = row?.BPCode || '';
                                                                 document.getElementById('controlAcName').value = row?.GLName || '';
                                                                 document.getElementById('controlAcCode').value = row?.GLCode || '';
                                                                 document.getElementById('receivedFrom').value = row?.BPName || '';
+
+                                                                // Fetch GSTIN data from API and update the GSTIN field
+                                                                if (row?.BPCode) {
+                                                                    try {
+                                                                        const response = await fetch(`${API_BASE_URL}/api/getGSTIN?customerCode=${row.BPCode}`);
+                                                                        if (response.ok) {
+                                                                            const data = await response.json();
+                                                                            document.getElementById('gstIN').value = data.gstin || 'UNREGISTERED';
+                                                                        } else {
+                                                                            console.error('Failed to fetch GSTIN:', response.statusText);
+                                                                        }
+                                                                    } catch (error) {
+                                                                        console.error('Error fetching GSTIN:', error);
+                                                                    }
+                                                                }
+
                                                             }}
+
                                                         />
                                                     </div>
                                                 </div>
@@ -298,9 +318,56 @@ const IncomingPayment = () => {
                                                             fieldName: 'TxtBankDetails',
                                                             fieldValue: '',
                                                         }}
-                                                        onSelect={(value, row) => {
+                                                        onSelect={async (value, row) => {
                                                             document.getElementById('bankGLName').value = row?.GLName || '';
                                                             document.getElementById('bankGLCode').value = row?.GLCode || '';
+                                                            if (row?.GLCode) {
+                                                                try {
+                                                                    const compCode = document.getElementById('companyCode').value;
+                                                                    const location = document.getElementById('location').value;
+                                                                    const docdate = document.getElementById('postingDate').value;
+                                                                    const glCode = document.getElementById('controlAcCode').value;
+                                                                    const glName = document.getElementById('controlAcName').value;
+
+                                                                    const data = {
+                                                                        compCode: compCode,
+                                                                        location: location,
+                                                                        frmName: 'FrmIncomingPayment',
+                                                                        userID: userid,
+                                                                        objCode: 'IGP',
+                                                                        docDate: docdate,
+                                                                        locked: 'N',
+                                                                        docType: '',
+                                                                        glCode: glCode,
+                                                                        glName: glName,
+                                                                        mode: '',
+                                                                    };
+
+                                                                    const queryString = encodeURIComponent(JSON.stringify(data));
+                                                                    const response = await fetch(`${API_BASE_URL}/api/getSeries?data=${queryString}`);
+                                                                    if (response.ok) {
+                                                                        const data = await response.json();
+                                                                        // console.log(data);
+                                                                        const seriesSelect = document.getElementById('series');
+                                                                        const defaultOption = seriesSelect.options[0]; // Save the default option
+                                                                        seriesSelect.innerHTML = ''; // Clear all options
+                                                                        seriesSelect.add(defaultOption); // Re-add the default option
+
+                                                                        data.Series.forEach(option => {
+                                                                            const optionElement = document.createElement('option');
+                                                                            optionElement.value = option.Series; // Update with actual property
+                                                                            optionElement.text = option.Series; // Update with actual property
+                                                                            seriesSelect.add(optionElement);
+                                                                        });
+                                                                    } else {
+                                                                        console.error('Failed to fetch Series:', response.statusText);
+                                                                    }
+
+                                                                }
+                                                                catch (error) {
+                                                                    console.error('Error fetching Series:', error)
+                                                                }
+                                                            }
                                                         }}
                                                     />
                                                     <div className="input-group-append w-25">
@@ -334,8 +401,43 @@ const IncomingPayment = () => {
                                                         <label htmlFor="series">Series</label>
                                                         <select
                                                             className="form-select"
-                                                            id='series'>
-                                                            <option value='' disabled>--Select--</option>
+                                                            id='series'
+                                                            onChange={async (e) => {
+                                                                const selectedSeries = e.target.value; // Get selected Series
+                                                                if (selectedSeries) {
+                                                                    try {
+                                                                        // Get values required for the query
+                                                                        const frmName = 'FrmIncomingPayment';
+                                                                        const objCode = 'IGP';
+                                                                        const docDate = document.getElementById('postingDate').value; // Example: '20/12/2024'
+                                                                        const bankCode = document.getElementById('bankGLCode').value; // Example: 'GR0016'
+
+                                                                        // Create request payload or query string
+                                                                        const data = {
+                                                                            series: selectedSeries,
+                                                                            frmName: frmName,
+                                                                            objCode: objCode,
+                                                                            docDate: docDate,
+                                                                            bankCode: bankCode,
+                                                                        };
+                                                                        const queryString = new URLSearchParams(data).toString();
+
+                                                                        // API call to fetch the SeriesNo
+                                                                        const response = await fetch(`${API_BASE_URL}/api/getSeriesNo?${queryString}`);
+                                                                        if (response.ok) {
+                                                                            const result = await response.json();
+                                                                            console.log(result);
+                                                                            document.getElementById('seriesNo').value = result.seriesNo; // Populate SeriesNo
+                                                                        } else {
+                                                                            console.error('Failed to fetch SeriesNo:', response.statusText);
+                                                                        }
+                                                                    } catch (error) {
+                                                                        console.error('Error fetching SeriesNo:', error);
+                                                                    }
+                                                                }
+                                                            }}
+                                                        >
+                                                            <option value='' disabled selected>--Select--</option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -369,6 +471,8 @@ const IncomingPayment = () => {
                                                             id='chequeDate'
                                                             type='date'
                                                             className="form-control"
+                                                            value={defaultDate} // Sets today's date as default
+                                                            onChange={(e) => setDefaultDate(e.target.value)} // Update state on change
                                                         />
                                                     </div>
                                                 </div>

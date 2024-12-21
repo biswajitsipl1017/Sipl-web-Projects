@@ -731,3 +731,86 @@ app.post('/api/getCustomerViewData', async (req, res) => {
     res.status(500).json({ message: 'Failed to fetch entry data.' });
   }
 });
+
+// Endpoint to fetch GSTIN by customer code
+app.get('/api/getGSTIN', async (req, res) => {
+  const { customerCode } = req.query;
+
+  // if (!customerCode) {
+  //     return res.status(400).json({ error: 'Customer code is required' });
+  // }
+  // console.log(customerCode);
+  try {
+    const poolConnection = await getDbPool();
+
+    const response = await poolConnection
+      .request()
+      .query(`Select TOP 1 GSTIN From CRD1 Where BPCode='${customerCode}'`);
+
+    const data = response.recordset[0];
+    // console.log(data);
+
+    return res.json({ gstin: data.GSTIN });
+
+  }
+  catch (error) {
+    console.error('Error fetching entry data:', error);
+    res.status(500).json({ message: 'Failed to fetch entry data.' });
+  }
+});
+
+// Endpoint to fetch Series by onek gulo details
+app.get('/api/getSeries', async (req, res) => {
+  try {
+    const data = JSON.parse(req.query.data); // Parse JSON from query string
+    // console.log(data);
+    const { compCode, location, frmName, userID, objCode, docDate, locked, docType, glCode, glName, mode } = data;
+
+    const poolConnection = await getDbPool();
+
+    const query = 'SELECT * FROM FuncFillDocSeries(@compCode, @location, @frmName, @objCode, @userID, @docDate, @locked, @docType, @glCode, @glName, @mode)';
+    const response = await poolConnection
+      .request()
+      .input('compCode', compCode)
+      .input('location', location)
+      .input('frmName', frmName)
+      .input('userID', userID)
+      .input('objCode', objCode)
+      .input('docDate', docDate)
+      .input('locked', locked)
+      .input('docType', docType)
+      .input('glCode', glCode)
+      .input('glName', glName)
+      .input('mode', mode)
+      .query(query);
+
+    // console.log(query);
+
+    const result = response.recordset;
+    // console.log(result);
+    res.json({ Series: result });
+  } catch (error) {
+    console.error('Error fetching Series:', error);
+    res.status(500).json({ message: 'Failed to fetch Series.', error: error.message });
+  }
+});
+
+app.get('/api/getSeriesNo', async (req, res) => {
+  console.log(req.query);
+  const { series, frmName, objCode, docDate, glCode } = req.query;
+  try {
+    const poolConnection = await getDbPool();
+
+    // Construct SQL Query using FuncOVPMDocNum
+    const query = `SELECT dbo.FuncOVPMDocNum ('VPM1', '${frmName}', '${objCode}', '${series}', '${docDate}', '${glCode}') as SeriesNo`;
+
+    const response = await poolConnection.request().query(query);
+
+    // Extract the result
+    const data = response.recordset[0];
+    return res.json({ seriesNo: data.SeriesNo });
+  } catch (error) {
+    console.error('Error fetching SeriesNo:', error);
+    res.status(500).json({ message: 'Failed to fetch SeriesNo.' });
+  }
+});
